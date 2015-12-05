@@ -1,0 +1,19 @@
+package com.joomboss;
+
+interface RegEx {
+	String getGET_TOKEN_REGEX();
+
+	String getGET_ERROR_MESSAGE_REGEX();
+
+	String getLOGIN_SUCCESSFULL_TEXT_EN();
+
+	String getINSTALLION_WAS_SUCCESSFULL_REGEG_EN();
+	
+	String getINSTALLION_WAS_FAILED_REGEG_EN();
+
+	String getUNINSTALLION_WAS_SUCCESSFULL_REGEG_EN();
+
+	String getGET_EXTENTION_ID_REGEX();
+	
+	String getLOGOUT_WAS_SUCCESSFULL_REGEG_EN();
+}

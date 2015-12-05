@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Ant Joomla Tasks" default="dist" basedir=".">
+	<description>Baut die ANT-Task deploy und undeploy für die Instaltion von Joomla-Erweiterungen</description>
+
+	<property name="src" location="src" />
+	<property name="build" location="build" />
+	<property name="dist" location="deploy" />
+	<property name="lib" value="lib" />
+
+	<path id="classpath">
+		<fileset dir="${lib}" includes="**/*.jar" />
+	</path>
+
+	<property environment="env"/>
+	<condition property="dev-lebel" value="build-${env.BUILD_NUMBER}" else="HEAD">
+    	<isset property="env.BUILD_NUMBER" />
+	</condition>
+	<condition property="label" value="${env.VERSION}" else="${dev-lebel}">
+    	<isset property="env.VERSION" />
+	</condition>
+	
+	<!-- ========================================================================================= -->
+	<!-- =                    init                                                               = -->
+	<!-- ========================================================================================= -->
+	<target name="init" depends="clean">
+		<tstamp />
+		<mkdir dir="${build}" />
+	</target>
+
+	<!-- ========================================================================================= -->
+	<!-- =                    compile                                                            = -->
+	<!-- ========================================================================================= -->
+	<target name="compile" depends="init" description="compile the source ">
+		<javac srcdir="${src}" destdir="${build}" includeantruntime="false" debug="true">
+			 <classpath refid="classpath"/>
+		</javac>
+	</target>
+
+   	<!-- ========================================================================================= -->
+	<!-- =                    dist                                                               = -->
+	<!-- ========================================================================================= -->
+	<target name="dist" depends="compile" description="generate the distribution">
+		<mkdir dir="${dist}/lib" />
+		<jar jarfile="${dist}/lib/ant-joomla-${label}.jar" basedir="${build}" />
+		<jar jarfile="${dist}/lib/ant-joomla-src-${label}.jar" basedir="${src}"/>
+		<zip file="${dist}/ant-joomla-full-${label}.zip">
+			<zipfileset dir="${dist}/lib/" includes="*.jar" prefix="lib" />
+			<zipfileset dir="${lib}/" includes="*.jar" prefix="lib" />
+			<zipfileset file="build.xml"/>
+			<zipfileset file="readme.txt"/>
+			<zipfileset dir="${src}" includes="**/*.java" prefix="src" />
+			<zipfileset dir="doc" includes="*" prefix="doc" />
+		</zip>
+	</target>
+	
+	<!-- ========================================================================================= -->
+	<!-- =                    install                                                            = -->
+	<!-- ========================================================================================= -->
+	<target name="install" depends="dist" description="Installiert nach $HOME/joomla-ant">
+			<delete dir="${env.HOME}/ant-joomla" />
+			<mkdir dir="${env.HOME}/ant-joomla/lib" />
+			<copy todir="${env.HOME}/ant-joomla/lib">
+				<fileset dir="${dist}/lib" includes="ant-joomla-${label}.jar" />
+				<fileset dir="${lib}" includes="*.jar" excludes="ant.jar" />
+			</copy>
+	</target>
+	
+	<!-- ========================================================================================= -->
+	<!-- =                    clean                                                              = -->
+	<!-- ========================================================================================= -->
+	<target name="clean" description="clean up">
+		<delete dir="${build}" />
+		<delete dir="${dist}" />
+	</target>
+</project>
+
