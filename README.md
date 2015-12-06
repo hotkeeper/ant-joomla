@@ -1,15 +1,17 @@
-ant-joomla ist eine ANT-Erweiterung, mit der man Joomla-Erweiterungen per Komandozeile installieren 
-(und auch deinstallieren) kann.
+# Beschreibung
+ant-joomla ist eine ANT-Erweiterung, mit der man Joomla-Erweiterungen per Komandozeile installieren (und auch deinstallieren) kann.
 
 Das Ganze nutzt das üblich HTML-Admin-Interfac von Joomla. 
 
 Die Idee stammt von
 	http://joomboss.com/products/ant-joomla/documentation
 	
-Leider tut dies nicht mit Joomla 1.7/2.5. So habe ich das ganze entsprechend angepasst.
+Der Original-Code unterstützt Joomla 3.x nicht. Daher habe ich das ganze entsprechend angepasst.
 
-Alles weite findet man unter
-	http://www.joomla-hklein.de/?p=1018
+# Bauen
+
+
+# Nutzung
 
 Einbinden in eine Ant-Build-Datei
 
